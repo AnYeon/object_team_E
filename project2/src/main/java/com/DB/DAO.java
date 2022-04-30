@@ -31,7 +31,7 @@ public class DAO {
         Class.forName(driver);
 
         conn = DriverManager.getConnection(url, id, pw);
-        pstmt = conn.prepareStatement(null);
+        pstmt = conn.prepareStatement(null);//pr test
     }      
 
     /**
