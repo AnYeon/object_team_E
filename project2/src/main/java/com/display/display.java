@@ -2,22 +2,22 @@ package com.display;
 
 import javax.swing.JFrame;
 
-public class Display{
-    LoginView loginView;
-    TestFrm testFrm;
+public class display{
+    static login loginView;
+    static mainpage mainView;
    
     public static void main(String[] args) {
        
         // 메인클래스 실행
-    	Display main = new Display();
-        main.loginView = new LoginView(); // 로그인창 보이기
-        main.loginView.setMain(main); // 로그인창에게 메인 클래스보내기
+    	display main = new display();
+        main.loginView = new login(); 
+        main.mainView = new mainpage(); 
     }
    
     // 테스트프레임창
-    public void showFrameTest(){
-        loginView.dispose(); // 로그인창닫기
-        this.testFrm = new TestFrm(); // 테스트프레임 오픈
+    public static void gomain(){
+    	mainView.setVisible(true);
+        loginView.setVisible(false); // 로그인창닫기
     }
  
 }

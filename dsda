@@ -1,0 +1,275 @@
+[1mdiff --git a/project2/src/main/java/com/display/display.java b/project2/src/main/java/com/display/display.java[m
+[1mindex 62cdeeb..2815119 100644[m
+[1m--- a/project2/src/main/java/com/display/display.java[m
+[1m+++ b/project2/src/main/java/com/display/display.java[m
+[36m@@ -2,22 +2,22 @@[m [mpackage com.display;[m
+ [m
+ import javax.swing.JFrame;[m
+ [m
+[31m-public class Display{[m
+[31m-    LoginView loginView;[m
+[31m-    TestFrm testFrm;[m
+[32m+[m[32mpublic class display{[m
+[32m+[m[32m    static login loginView;[m
+[32m+[m[32m    static mainpage mainView;[m
+    [m
+     public static void main(String[] args) {[m
+        [m
+         // 메인클래스 실행[m
+[31m-    	Display main = new Display();[m
+[31m-        main.loginView = new LoginView(); // 로그인창 보이기[m
+[31m-        main.loginView.setMain(main); // 로그인창에게 메인 클래스보내기[m
+[32m+[m[41m    [m	[32mdisplay main = new display();[m
+[32m+[m[32m        main.loginView = new login();[m[41m [m
+[32m+[m[32m        main.mainView = new mainpage();[m[41m [m
+     }[m
+    [m
+     // 테스트프레임창[m
+[31m-    public void showFrameTest(){[m
+[31m-        loginView.dispose(); // 로그인창닫기[m
+[31m-        this.testFrm = new TestFrm(); // 테스트프레임 오픈[m
+[32m+[m[32m    public static void gomain(){[m
+[32m+[m[41m    [m	[32mmainView.setVisible(true);[m
+[32m+[m[32m        loginView.setVisible(false); // 로그인창닫기[m
+     }[m
+  [m
+ }[m
+[1mdiff --git a/project2/src/main/java/com/display/login.java b/project2/src/main/java/com/display/login.java[m
+[1mindex 2c05fb7..0c54929 100644[m
+[1m--- a/project2/src/main/java/com/display/login.java[m
+[1m+++ b/project2/src/main/java/com/display/login.java[m
+[36m@@ -1,112 +1,84 @@[m
+ package com.display;[m
+[31m-[m
+ import java.awt.*;[m
+[31m-[m
+ import java.awt.event.*;[m
+[31m-[m
+ import javax.swing.*;[m
+ [m
+[31m-public class login extends JFrame {[m
+[31m-[m
+[31m-	private JPanel loginPanel = new JPanel(new GridLayout(3, 2));[m
+ [m
+[32m+[m[32mpublic class login extends JFrame {[m
+[32m+[m[41m	[m
+[32m+[m	[32mdisplay dp;[m
+[32m+[m	[32mprivate JPanel loginPanel = new JPanel();[m
+ 	private JLabel idLabel = new JLabel("아이디 ");[m
+[31m-[m
+ 	private JLabel pwLabel = new JLabel("비밀번호 ");[m
+[31m-[m
+ 	private JTextField idText = new JTextField();[m
+[31m-[m
+ 	private JPasswordField pwText = new JPasswordField();[m
+[31m-[m
+ 	private JButton loginBtn = new JButton("로그인");[m
+[31m-[m
+ 	private JButton idpwSearchBtn = new JButton("아이디/비밀번호 찾기");[m
+[32m+[m[41m	[m
+ [m
+ 	public login() {[m
+ [m
+[31m-		super("로그인 창!");[m
+[31m-[m
+[32m+[m		[32msuper("로그인 창");[m
+[32m+[m		[32mloginPanel.setLayout(null);[m
+ 		this.setContentPane(loginPanel);[m
+[31m-[m
+[32m+[m[41m		[m
+[32m+[m		[32midLabel.setBounds(10, 10, 100, 25);[m
+[32m+[m		[32mpwLabel.setBounds(10, 40, 100, 25);[m
+[32m+[m		[32midText.setBounds(100, 10, 100, 25);[m
+[32m+[m		[32mpwText.setBounds(100, 40, 100, 25);[m
+[32m+[m		[32mloginBtn.setBounds(10, 80, 120, 25);[m
+[32m+[m		[32midpwSearchBtn.setBounds(160, 80, 120, 25);[m
+[32m+[m[41m		[m
+ 		loginPanel.add(idLabel);[m
+[31m-[m
+[31m-		loginPanel.add(pwLabel);[m
+[31m-[m
+ 		loginPanel.add(idText);[m
+[31m-[m
+[32m+[m		[32mloginPanel.add(pwLabel);[m
+ 		loginPanel.add(pwText);[m
+[31m-[m
+[31m-		loginPanel.add(idpwSearchBtn);[m
+[31m-[m
+ 		loginPanel.add(loginBtn);[m
+[31m-[m
+[31m-//라벨 가운데 정렬[m
+[32m+[m		[32mloginPanel.add(idpwSearchBtn);[m
+ [m
+ 		idLabel.setHorizontalAlignment(NORMAL);[m
+[31m-[m
+ 		pwLabel.setHorizontalAlignment(NORMAL);[m
+ [m
+[31m-//현재 프레임 창 가운데 정렬 setSize를 먼저 해주어야 정상적으로 프레임이 가운데 정렬이 됨![m
+[31m-[m
+ 		setSize(350, 150);[m
+ [m
+ 		this.setLocationRelativeTo(null);[m
+[31m-[m
+ 		this.setVisible(true);[m
+[31m-[m
+ 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);[m
+ [m
+[31m-//로그인 버튼을 눌렀을때[m
+[31m-[m
+ 		loginBtn.addActionListener(new ActionListener() {[m
+ [m
+ 			public void actionPerformed(ActionEvent e) {[m
+[31m-[m
+[31m-//아이디 비번 확인 테스트 코드~[m
+[31m-[m
+ 				String id = idText.getText().trim();[m
+[31m-[m
+ 				String pw = pwText.getText().trim();[m
+[31m-[m
+[32m+[m[41m	[m
+ 				if (id.length() == 0 || pw.length() == 0) {[m
+[31m-[m
+ 					JOptionPane.showMessageDialog(null, "아이디 또는 비밀번호를 입력 하셔야 됩니다.", "아이디나 비번을 입력!",[m
+ 							JOptionPane.DEFAULT_OPTION);[m
+[31m-[m
+ 					return;[m
+[31m-[m
+ 				}[m
+[31m-[m
+[32m+[m[41m	[m
+ 				if (id.equals("test") && pw.equals("test1")) {[m
+[31m-[m
+ 					JOptionPane.showMessageDialog(null, "로그인 성공", "로그인 확인!", JOptionPane.DEFAULT_OPTION);[m
+[31m-[m
+[32m+[m					[32mdp.gomain();[m
+[32m+[m					[32m//여기서 다른 화면으로 이동하도록 구현[m
+ 					return;[m
+[31m-[m
+ 				}[m
+[31m-[m
+[32m+[m[41m	[m
+ 				JOptionPane.showMessageDialog(null, "로그인 실패", "로그인 확인!", JOptionPane.DEFAULT_OPTION);[m
+[32m+[m[41m	[m
+[32m+[m				[32m}[m
+ [m
+[31m-			}[m
+ [m
+ 		});[m
+ [m
+[31m-//아이디 비밀번호 찾기 버튼을 눌렀을때[m
+[31m-[m
+ 		idpwSearchBtn.addActionListener(new ActionListener() {[m
+ [m
+ 			public void actionPerformed(ActionEvent e) {[m
+[31m-[m
+ 				JOptionPane.showMessageDialog(null, "아이디 비번 찾기 기능~~", "아이디/비밀번호 찾기", JOptionPane.DEFAULT_OPTION);[m
+ 			}[m
+ 		});[m
+ [m
+ 	}[m
+ [m
+[31m-	public static void main(String[] args) {[m
+[31m-[m
+[31m-		new login();[m
+[31m-[m
+[31m-	}[m
+ [m
+ }[m
+\ No newline at end of file[m
+[1mdiff --git a/project2/src/main/java/com/display/mainpage.java b/project2/src/main/java/com/display/mainpage.java[m
+[1mindex 169e31f..dc418b2 100644[m
+[1m--- a/project2/src/main/java/com/display/mainpage.java[m
+[1m+++ b/project2/src/main/java/com/display/mainpage.java[m
+[36m@@ -8,17 +8,12 @@[m [mpublic class mainpage extends JFrame {[m
+ [m
+ 	private JPanel loginPanel = new JPanel(new GridLayout(3, 2));[m
+ [m
+[31m-	private JLabel idLabel = new JLabel("아이디 ");[m
+[32m+[m	[32mprivate JLabel idLabel = new JLabel("이건 메인 페이지 ");[m
+ [m
+[31m-	private JLabel pwLabel = new JLabel("비밀번호 ");[m
+ [m
+[31m-	private JTextField idText = new JTextField();[m
+ [m
+[31m-	private JPasswordField pwText = new JPasswordField();[m
+[31m-[m
+[31m-	private JButton loginBtn = new JButton("로그인");[m
+[31m-[m
+[31m-	private JButton idpwSearchBtn = new JButton("아이디/비밀번호 찾기");[m
+[32m+[m	[32mprivate JButton loginBtn = new JButton("작업관리");[m
+[32m+[m	[32mprivate JButton idpwSearchBtn = new JButton("멤버관리");[m
+ [m
+ 	public mainpage() {[m
+ [m
+[36m@@ -27,26 +22,15 @@[m [mpublic class mainpage extends JFrame {[m
+ 		this.setContentPane(loginPanel);[m
+ [m
+ 		loginPanel.add(idLabel);[m
+[31m-		loginPanel.add(pwLabel);[m
+[31m-		loginPanel.add(idText);[m
+[31m-		loginPanel.add(pwText);[m
+ 		loginPanel.add(idpwSearchBtn);[m
+ 		loginPanel.add(loginBtn);[m
+ [m
+[31m-//라벨 가운데 정렬[m
+[31m-[m
+ 		idLabel.setHorizontalAlignment(NORMAL);[m
+ [m
+[31m-		pwLabel.setHorizontalAlignment(NORMAL);[m
+[31m-[m
+[31m-//현재 프레임 창 가운데 정렬 setSize를 먼저 해주어야 정상적으로 프레임이 가운데 정렬이 됨![m
+ [m
+ 		setSize(350, 150);[m
+[31m-[m
+ 		this.setLocationRelativeTo(null);[m
+[31m-[m
+[31m-		this.setVisible(true);[m
+[31m-[m
+[32m+[m		[32mthis.setVisible(false);[m
+ 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);[m
+ [m
+ //로그인 버튼을 눌렀을때[m
+[36m@@ -55,31 +39,6 @@[m [mpublic class mainpage extends JFrame {[m
+ [m
+ 			public void actionPerformed(ActionEvent e) {[m
+ [m
+[31m-//아이디 비번 확인 테스트 코드~[m
+[31m-[m
+[31m-				String id = idText.getText().trim();[m
+[31m-[m
+[31m-				String pw = pwText.getText().trim();[m
+[31m-[m
+[31m-				if (id.length() == 0 || pw.length() == 0) {[m
+[31m-[m
+[31m-					JOptionPane.showMessageDialog(null, "아이디 또는 비밀번호를 입력 하셔야 됩니다.", "아이디나 비번을 입력!",[m
+[31m-							JOptionPane.DEFAULT_OPTION);[m
+[31m-[m
+[31m-					return;[m
+[31m-[m
+[31m-				}[m
+[31m-[m
+[31m-				if (id.equals("test") && pw.equals("test1")) {[m
+[31m-[m
+[31m-					JOptionPane.showMessageDialog(null, "로그인 성공", "로그인 확인!", JOptionPane.DEFAULT_OPTION);[m
+[31m-[m
+[31m-					return;[m
+[31m-[m
+[31m-				}[m
+[31m-[m
+[31m-				JOptionPane.showMessageDialog(null, "로그인 실패", "로그인 확인!", JOptionPane.DEFAULT_OPTION);[m
+[31m-[m
+ 			}[m
+ [m
+ 		});[m
+[36m@@ -96,10 +55,4 @@[m [mpublic class mainpage extends JFrame {[m
+ [m
+ 	}[m
+ [m
+[31m-	public static void main(String[] args) {[m
+[31m-[m
+[31m-		new login();[m
+[31m-[m
+[31m-	}[m
+[31m-[m
+ }[m
+\ No newline at end of file[m
